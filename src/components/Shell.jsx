@@ -7,25 +7,21 @@ import {InputController} from './InputController';
 
 export const Shell = ({ scene, engine }) => {
 
-    const[input, setInput] = useState({
-        horizontal: 0,
-        vertical: 0,
-    })
+  const [input, setInput] = useState({
+    horizontal: 0,
+    vertical: 0,
+  });
 
-    const onInputUpdated = (values) => {
-        setInput(values)
-    }
+  const onInputUpdated = (values) => {
+    setInput(values)
+  }
 
   return (
     <GameObject scene={scene} engine={engine}>
       <EnvironmentController />
-
-       <PlayerController input={input} /*onPlayerCreated={handlePlayerCreated}*/ />
-        {/*
-      {playerMesh && <CameraController playerMesh={playerMesh} />}
-      */
-      <InputController onInputUpdated={onInputUpdated} />
-      }
+      <PlayerController input={input}/>
+       {/* {playerMesh && <CameraController playerMesh={playerMesh} />} */}
+      <InputController onInputUpdated={onInputUpdated } />
     </GameObject>
   );
 };

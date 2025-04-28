@@ -1,58 +1,64 @@
 // PlayerController.jsx
 import React, { useEffect, useRef, useContext } from 'react';
-import {
-    MeshBuilder,
-    TransformNode,
-    Vector3,
-    Scalar,
-    StandardMaterial,
-    Color3,
-    Mesh as meshBuilder
-} from '@babylonjs/core';
+import { MeshBuilder, TransformNode,StandardMaterial, Vector3, Scalar, Color3 } from '@babylonjs/core';
 import { GameObjectContext } from '../contexts/GameObjectContext';
 import { GRAVITY, PLAYER_SPEED, PLAYER_JUMP_FORCE, ROTATION_SPEED } from '../settings/const';
 
-export const PlayerController = (input) => {
-    const {scene} = useContext(GameObjectContext);
-    const playerref = useRef(null);
+export const PlayerController = ({input})=>{
+   const { scene } = useContext(GameObjectContext);
+   const playerRef = useRef(null);
 
-    useEffect(() => {
+   useEffect(()=>{
 
-        const player = MeshBuilder.CreateSphere("player", {diameter: 2}, scene);
-        player.position = new Vector3(0, 1, 0);
+    const player = MeshBuilder.CreateSphere("player", { diameter : 2 }, scene);
+    player.position = new Vector3(0, 1, 0);
 
-        //player material
-        const playerMatetial = new StandardMaterial("playerMaterial", scene)
-        playerMatetial.diffuseColor = new Color3(0, 0, 1);
+    // player material
+    const playerMaterial = new StandardMaterial("playerMaterial", scene);
+    playerMaterial.diffuseColor = new Color3(0, 0, 10);
+    player.material = playerMaterial;
 
-        player.checkCollisions = true;
+    player.checkCollisions = true;
 
-        const node = new TransformNode("playerNode", scene);
-        node.parent = player;
-        node.position.set(0, 0, 1);
-        const square = MeshBuilder.CreateBox("square", {size: 0.5}, scene);
-        square.parent = node
-        playerref.current = player
+    const node = new TransformNode("playerNode", scene);
+    node.parent = player;
+    node.position = new Vector3(0, 0, 1);
 
-    }, [scene]);
+    const square = MeshBuilder.CreateBox("square", { size: 0.5 }, scene);
+    square.parent = node;
+    playerRef.current = player;
 
-    useEffect(() => {
-        if (!scene || !playerref.current) return;
 
-        const updatePlayerMovement = () => {
-            const { horizontal, vertical } = input || {horizontal: 0, vertical: 0};
-            if (horizontal !== 0){
-                playerref.current.rotation.y += horizontal * ROTATION_SPEED;
-            }
+   }, [scene]);
 
-            scene.registerBeforeRender(updatePlayerMovement);
+   useEffect(()=>{
+    if(!scene || !playerRef.current) return;
+    console.log("PlayerController: scene is ready");
 
-            return() => {
-                scene.unregisterBeforeRender(updatePlayerMovement);
-            }
+    const updatePlayerMovement = () => {
+        const { horizontal, vertical } = input || { horizontal: 0, vertical: 0 };
+
+        if(horizontal !==0){
+        console.debug("horizontal", horizontal);
+        playerRef.current.rotation.y += horizontal * ROTATION_SPEED
         }
 
-    }, [scene, input, playerref.current]);
+        if (vertical !==0){
+            const frontVector = new Vector3(
+                Math.sin(playerRef.current.rotation.y),
+                0,
+                Math.cos(playerRef.current.rotation.y)
+            );
+            const moveDirection = frontVector.scale(vertical * PLAYER_SPEED);
+            playerRef.current.position.addInPlace(moveDirection);
+        }
+    }
+
+    scene.registerBeforeRender(updatePlayerMovement);
+    return () => {
+        scene.unregisterBeforeRender(updatePlayerMovement);
+    };
+   }, [scene,input]);
 
 
     return null;
