@@ -58,6 +58,7 @@ export const PlayerController = ({input, onPlayerCreated})=>{
             playerRef.current.position.addInPlace(moveDirection);
         }
 
+
         if (jump && playerRef.current.position.y < 1.2){
             velocityRef.current.y = PLAYER_JUMP_FORCE;
         }
