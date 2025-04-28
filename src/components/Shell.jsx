@@ -20,7 +20,7 @@ export const Shell = ({ scene, engine }) => {
     <GameObject scene={scene} engine={engine}>
       <EnvironmentController />
 
-       <PlayerController /*input={inputValues} onPlayerCreated={handlePlayerCreated}*/ />
+       <PlayerController input={input} /*onPlayerCreated={handlePlayerCreated}*/ />
         {/*
       {playerMesh && <CameraController playerMesh={playerMesh} />}
       */
