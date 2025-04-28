@@ -3,9 +3,18 @@ import { GameObject } from '../contexts/GameObjectContext';
 //import {CameraController} from './CameraController';
 import {EnvironmentController} from './EnvironnementController';
 import {PlayerController} from './PlayerController';
-//import {InputController} from './InputController';
+import {InputController} from './InputController';
 
 export const Shell = ({ scene, engine }) => {
+
+    const[input, setInput] = useState({
+        horizontal: 0,
+        vertical: 0,
+    })
+
+    const onInputUpdated = (values) => {
+        setInput(values)
+    }
 
   return (
     <GameObject scene={scene} engine={engine}>
@@ -14,8 +23,9 @@ export const Shell = ({ scene, engine }) => {
        <PlayerController /*input={inputValues} onPlayerCreated={handlePlayerCreated}*/ />
         {/*
       {playerMesh && <CameraController playerMesh={playerMesh} />}
-      <InputController onUpdate={handleInputUpdated} />
-      */}
+      */
+      <InputController onInputUpdated={onInputUpdated} />
+      }
     </GameObject>
   );
 };
