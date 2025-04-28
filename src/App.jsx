@@ -2,7 +2,7 @@
 import React, {useState, useCallback, useEffect} from 'react';
 import { SceneComponent } from './components/SceneComponent';
 import {ArcRotateCamera,Vector3} from '@babylonjs/core';
-/*import {Shell} from './components/Shell';*/
+import {Shell} from './components/Shell';
 import './App.css';
 
 const App = () => {
@@ -38,11 +38,10 @@ const App = () => {
       onSceneReady={onSceneReady}
       onRender={onRender}
       id="my-canvas"
-    > {/*
+    >
       {sceneState && engineState && (
         <Shell scene={sceneState} engine={engineState} />
       )}
-      */}
     </SceneComponent>
   );
 };
