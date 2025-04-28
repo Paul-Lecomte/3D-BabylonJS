@@ -1,3 +1,4 @@
+/*
 import React, { useState } from 'react';
 import { GameObject } from '../contexts/GameObjectContext';
 import {CameraController} from './CameraController';
@@ -16,3 +17,4 @@ export const Shell = ({ scene, engine }) => {
     </GameObject>
   );
 };
+*/

@@ -2,7 +2,7 @@
 import React, {useState, useCallback, useEffect} from 'react';
 import { SceneComponent } from './components/SceneComponent';
 import {ArcRotateCamera,Vector3} from '@babylonjs/core';
-import {Shell} from './components/Shell';
+/*import {Shell} from './components/Shell';*/
 import './App.css';
 
 const App = () => {
@@ -15,16 +15,16 @@ const App = () => {
     setEngineState(engine);
     console.log('Scene is ready');
 
-    // const camera = new ArcRotateCamera(
-    //   'camera',
-    //   Math.PI / 2,
-    //   Math.PI / 2,
-    //   2,
-    //   new Vector3(0, 5, -20),
-    //   scene
-    // );
-    // camera.setTarget(Vector3.Zero());
-    // camera.attachControl(scene.getEngine().getRenderingCanvas(), true);
+     const camera = new ArcRotateCamera(
+      'camera',
+       Math.PI / 2,
+       Math.PI / 2,
+       2,
+       new Vector3(0, 5, -20),
+       scene
+     );
+     camera.setTarget(Vector3.Zero());
+     camera.attachControl(scene.getEngine().getRenderingCanvas(), true);
 
   }, []);
 
@@ -38,10 +38,11 @@ const App = () => {
       onSceneReady={onSceneReady}
       onRender={onRender}
       id="my-canvas"
-    >
+    > {/*
       {sceneState && engineState && (
         <Shell scene={sceneState} engine={engineState} />
       )}
+      */}
     </SceneComponent>
   );
 };
