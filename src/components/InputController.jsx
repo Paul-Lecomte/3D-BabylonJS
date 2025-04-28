@@ -39,9 +39,13 @@ export const InputController = ({ onInputUpdated }) => {
             if (keys['ArrowUp'] || keys['w']) vertical += Scalar.Lerp(0,1,0.5);
             if (keys['ArrowDown'] || keys['s']) vertical -= Scalar.Lerp(0,1,0.5);
 
+            let jump = false;
+            if (keys[' ']) jump = true;
+
             const newInputValue = {
                 horizontal,
                 vertical,
+                jump
             };
 
             setInputValue(newInputValue);

@@ -7,6 +7,7 @@ import { GRAVITY, PLAYER_SPEED, PLAYER_JUMP_FORCE, ROTATION_SPEED } from '../set
 export const PlayerController = ({input, onPlayerCreated})=>{
    const { scene } = useContext(GameObjectContext);
    const playerRef = useRef(null);
+   const velocityRef = useRef(Vector3.Zero(0,0,0));
 
    useEffect(()=>{
 
@@ -40,7 +41,7 @@ export const PlayerController = ({input, onPlayerCreated})=>{
     console.log("PlayerController: scene is ready");
 
     const updatePlayerMovement = () => {
-        const { horizontal, vertical } = input || { horizontal: 0, vertical: 0 };
+        const { horizontal, vertical, jump } = input || { horizontal: 0, vertical: 0 };
 
         if(horizontal !==0){
         console.debug("horizontal", horizontal);
@@ -56,6 +57,14 @@ export const PlayerController = ({input, onPlayerCreated})=>{
             const moveDirection = frontVector.scale(vertical * PLAYER_SPEED);
             playerRef.current.position.addInPlace(moveDirection);
         }
+
+        if (jump && playerRef.current.position.y < 1.2){
+            velocityRef.current.y = PLAYER_JUMP_FORCE;
+        }
+        const deltaTime = scene.getEngine().getDeltaTime() / 1000;
+        const newVelocityY = velocityRef.current.y + GRAVITY * deltaTime;
+        velocityRef.current.y = Scalar.Lerp(velocityRef.current.y, newVelocityY, 0.1);
+        playerRef.current.moveWithCollisions(velocityRef.current);
     }
 
     scene.registerBeforeRender(updatePlayerMovement);

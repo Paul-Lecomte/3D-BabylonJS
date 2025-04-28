@@ -14,10 +14,10 @@ export const CameraController = ({playerMesh}) => {
         }
 
         const camera = new FollowCamera("main-camera", new Vector3(0,5,-20), scene);
-        camera.radius = 10;
+        camera.radius = 40;
         camera.heightOffset = 5;
         camera.rotationOffset = 180;
-        camera.cameraAcceleration = 0.5;
+        camera.cameraAcceleration = 0.05;
         camera.maxCameraSpeed = 0.1;
 
         camera.lockedTarget = playerMesh;
