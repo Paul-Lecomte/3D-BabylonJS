@@ -4,7 +4,7 @@ import { MeshBuilder, TransformNode,StandardMaterial, Vector3, Scalar, Color3 } 
 import { GameObjectContext } from '../contexts/GameObjectContext';
 import { GRAVITY, PLAYER_SPEED, PLAYER_JUMP_FORCE, ROTATION_SPEED } from '../settings/const';
 
-export const PlayerController = ({input})=>{
+export const PlayerController = ({input, onPlayerCreated})=>{
    const { scene } = useContext(GameObjectContext);
    const playerRef = useRef(null);
 
@@ -27,6 +27,10 @@ export const PlayerController = ({input})=>{
     const square = MeshBuilder.CreateBox("square", { size: 0.5 }, scene);
     square.parent = node;
     playerRef.current = player;
+
+    if (onPlayerCreated){
+        onPlayerCreated(player)
+    }
 
 
    }, [scene]);
